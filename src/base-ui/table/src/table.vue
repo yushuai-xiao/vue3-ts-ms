@@ -1,6 +1,6 @@
 <template>
   <div class="xs-table">
-    <!-- main的内容区渲染 -->
+    <!-- main的头部内容区渲染 -->
     <div class="header">
       <slot name="header">
         <div class="title">{{ title }}</div>

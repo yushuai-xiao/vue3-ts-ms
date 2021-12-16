@@ -7,6 +7,7 @@
       class="search"
     />
     <page-content
+      ref="pageContentRef"
       :contentTableConfig="contentTableConfig"
       pageName="department"
       @newBtnClick="handleNewData"
@@ -52,7 +53,7 @@ export default defineComponent({
     // 2.动态添加部门和角色列表
     const store = useStore()
     const searchFormConfigRef = computed(() => {
-      console.log(searchFormConfig)
+      // console.log(searchFormConfig)
 
       const departmentItem = searchFormConfig.formItems.find(
         (item) => item.field === 'name'
@@ -60,7 +61,7 @@ export default defineComponent({
       departmentItem!.options = store.state.entireDepartment.map((item) => {
         return { title: item.name, value: item.name }
       })
-      console.log(searchFormConfig)
+      // console.log(searchFormConfig)
       return searchFormConfig
     })
 

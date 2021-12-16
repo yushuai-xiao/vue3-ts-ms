@@ -4,9 +4,15 @@ enum DashboardAPI {
   categoryGoodsCount = '/goods/category/count',
   categoryGoodsSale = '/goods/category/sale',
   categoryGoodsFavor = '/goods/category/favor',
-  addressGoodsSale = '/goods/address/sale'
+  addressGoodsSale = '/goods/address/sale',
+  amountList = '/goods/amount/list'
 }
 
+export function getAmountList() {
+  return xsRequest.get({
+    url: DashboardAPI.amountList
+  })
+}
 export function getCategoryGoodsCount() {
   return xsRequest.get({
     url: DashboardAPI.categoryGoodsCount

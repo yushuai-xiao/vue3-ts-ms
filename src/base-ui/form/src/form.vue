@@ -1,5 +1,6 @@
 <template>
   <div class="xs-form">
+    <!-- 标题的动态插槽 -->
     <div class="header">
       <slot name="header"></slot>
     </div>
@@ -15,10 +16,15 @@
             >
               <!-- 判读输入框的类型 -->
               <template
-                v-if="item.type === 'input' || item.type === 'password'"
+                v-if="
+                  item.type === 'input' ||
+                  item.type === 'password' ||
+                  item.type === 'textarea'
+                "
               >
                 <el-input
                   :placeholder="item.placeholder"
+                  :type="item.type"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
                   :model-value="modelValue[`${item.field}`]"
@@ -58,6 +64,7 @@
         </template>
       </el-row>
     </el-form>
+    <!-- 搜索区域底部的插槽 -->
     <div class="footer">
       <slot name="footer"></slot>
     </div>
@@ -119,6 +126,7 @@ export default defineComponent({
     //   }
     // )
     const handleValueChange = (value: any, field: string) => {
+      // console.log({ ...props.modelValue, [field]: value })
       emit('update:modelValue', { ...props.modelValue, [field]: value })
     }
     return {

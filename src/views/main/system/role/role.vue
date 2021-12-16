@@ -1,7 +1,12 @@
 <template>
   <div class="role">
-    <page-search :searchFormConfig="searchFormConfig"></page-search>
+    <page-search
+      :searchFormConfig="searchFormConfig"
+      @resetBtnClick="handleResetClick"
+      @queryBtnClick="handleQueryClick"
+    ></page-search>
     <page-content
+      ref="pageContentRef"
       :contentTableConfig="contentTableConfig"
       pageName="role"
       @newBtnClick="handleNewData"
@@ -42,6 +47,7 @@ import { contentTableConfig } from './config/content.config'
 import { modalConfig } from './config/modal.config'
 
 import { usePageModal } from '@/hooks/use-page-modal'
+import { usePageSearch } from '@/hooks/use-page-search'
 import { ElTree } from 'element-plus'
 import { menuMapLeafKeys } from '@/utils/map-menus'
 
@@ -53,27 +59,35 @@ export default defineComponent({
     PageModal
   },
   setup() {
+    const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
     // 1.处理pageModal的hook
     const elTreeRef = ref<InstanceType<typeof ElTree>>()
 
+    // 处理编辑情况下，叶子节点的显示
     const editCallback = (item: any) => {
-      console.log(item)
+      // console.log(item)
       const leafKeys = menuMapLeafKeys(item.menuList)
-      console.log(leafKeys)
+      // console.log(leafKeys)
       nextTick(() => {
-        console.log(elTreeRef.value)
+        // console.log(elTreeRef.value)
+        // 设置要选中的某些节点，根据处理过后的leafKeys，设置
         elTreeRef.value?.setCheckedKeys(leafKeys, false)
       })
     }
     // 2.调用usePageMOdal的hook
     const [pageModalRef, defaultInfo, handleEditData, handleNewData] =
       usePageModal(undefined, editCallback)
-    //  从store中拿出menus
+    //  从store中拿出menus,拿出整个菜单，显示所有的elTree的节点
     const store = useStore()
+    // 拿到整个菜单树，在页面布局中，是根据menus中menu的id进行绑定的
     const menus = computed(() => store.state.entireMenu)
 
-    console.log(menus)
+    // console.log(menus)
     const otherInfo = ref({})
+
+    // 处理叶子
+    /* 共两个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、树目前的选中状态对象，
+    包含 checkedNodes、checkedKeys、halfCheckedNodes、halfCheckedKeys 四个属性 */
 
     const handleCheckChange = (data1: any, data2: any) => {
       const chenckedKeys = data2.checkedKeys
@@ -82,6 +96,7 @@ export default defineComponent({
 
       otherInfo.value = { menuList }
     }
+
     return {
       searchFormConfig,
       contentTableConfig,
@@ -91,6 +106,10 @@ export default defineComponent({
       defaultInfo,
       handleNewData,
       handleEditData,
+
+      pageContentRef,
+      handleResetClick,
+      handleQueryClick,
 
       menus,
       otherInfo,

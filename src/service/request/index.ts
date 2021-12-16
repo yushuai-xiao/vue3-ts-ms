@@ -89,6 +89,8 @@ class XSRequest {
   request<T>(config: XSRequestConfig<T>): Promise<T> {
     // 利用promise进行处理
     return new Promise((resolve, reject) => {
+      // console.log(config)
+
       // 1.单个请求对请求config的处理
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
@@ -122,9 +124,12 @@ class XSRequest {
   }
   // 定义get,post,delete,patcj等方法
   get<T>(config: XSRequestConfig<T>): Promise<T> {
+    // console.log(11111)
     return this.request<T>({ ...config, method: 'GET' })
   }
   post<T>(config: XSRequestConfig<T>): Promise<T> {
+    // console.log(11111)
+    // console.log(config)
     return this.request<T>({ ...config, method: 'POST' })
   }
 

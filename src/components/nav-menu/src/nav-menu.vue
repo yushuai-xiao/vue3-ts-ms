@@ -65,12 +65,13 @@ export default defineComponent({
     const store = useStore()
 
     const userMenus = computed(() => store.state.login.userMenus)
-
+    // console.log(userMenus)
     // router操作
     const route = useRoute()
 
     // 动态选中当前的currentPath
     const currentPath = route.path
+    // console.log(currentPath)
 
     // data
     const menu = pathMapToMenu(userMenus.value, currentPath)

@@ -55,6 +55,8 @@ export default defineComponent({
       const passwordItem = modalConfig.formItems.find(
         (item) => item.field === 'password'
       )
+      // {field: 'password', type: 'password', label: '用户密码', placeholder: '请输入密码', isHidden: false}
+      // console.log(passwordItem)
       passwordItem!.isHidden = false
     }
     const editCallback = () => {
@@ -89,6 +91,7 @@ export default defineComponent({
       searchFormConfig,
       contentTableConfig,
       pageContentRef,
+
       handleResetClick,
       handleQueryClick,
       pageModalRef,

@@ -1,5 +1,15 @@
 <template>
   <div class="dashboard">
+    <!-- 顶部的数据统计 -->
+    <el-row :gutter="20">
+      <template v-for="item in topPanelData" :key="item.title">
+        <el-col :md="12" :lg="6" :xl="6">
+          <statistical-panel :panelData="item" />
+        </el-col>
+      </template>
+    </el-row>
+
+    <!-- 中间的echarts -->
     <el-row :gutter="10">
       <el-col :span="7">
         <xs-card title="分类商品数量(饼图)">
@@ -18,7 +28,7 @@
         ></xs-card>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="content-row">
+    <el-row :gutter="60" class="row">
       <el-col :span="12">
         <xs-card title="分类商品的销量">
           <line-echart v-bind="categoryGoodsSale"></line-echart>
@@ -45,6 +55,8 @@ import {
   MapEchart
 } from '@/components/page-echarts'
 
+import StatisticalPanel from '@/components/statistical-panel'
+
 export default defineComponent({
   name: 'dashboard',
   components: {
@@ -53,13 +65,17 @@ export default defineComponent({
     RoseEchart,
     LineEchart,
     BarEchart,
-    MapEchart
+    MapEchart,
+    StatisticalPanel
   },
   setup() {
     const store = useStore()
     // 请求数据
     store.dispatch('dashboard/getDashboardDataAction')
 
+    // 2.获取顶部PanelData
+    const topPanelData = computed(() => store.state.dashboard.topPanelDatas)
+    console.log(topPanelData)
     // 获取数据
     // pieEchart所需数据
     const categoryGoodsCount = computed(() => {
@@ -79,6 +95,7 @@ export default defineComponent({
       }
       return { xLabels, values }
     })
+
     // bar-echar所需数据
     const categoryGoodsFavor = computed(() => {
       const xLabels: string[] = []
@@ -90,7 +107,8 @@ export default defineComponent({
       }
       return { xLabels, values }
     })
-    // mao-echart所需数据
+
+    // map-echart所需数据
     const addressGoodsSale = computed(() => {
       return store.state.dashboard.addressGoodsSale.map((item: any) => {
         return { name: item.address, value: item.count }
@@ -100,14 +118,19 @@ export default defineComponent({
       categoryGoodsCount,
       categoryGoodsSale,
       categoryGoodsFavor,
-      addressGoodsSale
+      addressGoodsSale,
+      topPanelData
     }
   }
 })
 </script>
 
-<style scoped>
-.content-row {
-  margin-top: 20px;
+<style scoped lang="less">
+.dashboard {
+  background-color: #f5f5f5;
+
+  .row {
+    margin-top: 20px;
+  }
 }
 </style>

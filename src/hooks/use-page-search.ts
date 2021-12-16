@@ -8,6 +8,7 @@ export function usePageSearch() {
   }
   const handleQueryClick = (queryInfo: any) => {
     pageContentRef.value?.getPageData(queryInfo)
+    // console.log('test')
   }
   return [pageContentRef, handleResetClick, handleQueryClick]
 }

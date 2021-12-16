@@ -1,6 +1,6 @@
 <template>
   <div class="nav-breadcrumb">
-    <el-breadcrumb separator="/">
+    <el-breadcrumb :separator-icon="ArrowRight">
       <template v-for="item in breadcrumbs" :key="item.name">
         <el-breadcrumb-item :to="item.path">
           {{ item.name }}
@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-
+import { ArrowRight } from '@element-plus/icons-vue'
 import { IBreadcrumb } from '../types'
 export default defineComponent({
   props: {
@@ -22,7 +22,9 @@ export default defineComponent({
     }
   },
   setup() {
-    return {}
+    return {
+      ArrowRight
+    }
   }
 })
 </script>

@@ -36,7 +36,7 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
-
+      // console.log(userMenus)
       // 注册动态路由，
       //  userMenus => routes
       const routes = mapMenusToRoutes(userMenus)
@@ -89,6 +89,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+
         // 发送初始化的请求（完整的role/department）
         dispatch('getInitialDataAction', null, { root: true })
       }

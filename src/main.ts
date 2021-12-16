@@ -13,6 +13,7 @@ import { globalRegister } from './global'
 // import xsRequest from './service'
 const app = createApp(App)
 
+// import localCache from '@/utils/cache'
 // 注册
 app.use(globalRegister)
 
@@ -23,16 +24,24 @@ setupStore()
 app.use(router)
 
 app.mount('#app')
+// const token = localCache.getCache('token')
 
+// console.log(xsRequest)
 // xsRequest.request({
-//   url: '/home/multidata',
+//   url: '/users/list',
 //   // url:'/students',
+//   headers: { token },
 //   method: 'GET',
-//   headers: {},
 //   interceptors: {
-//     requestInterceptor: (config) => {
-//       // console.log('单独请求的config')
-//       // config.headers['token'] = '123'
+//     requestInterceptor: (config: any) => {
+//       console.log('单独请求的config')
+//       const token = localCache.getCache('token')
+//       console.log(token)
+//       if (token) {
+//         // console.log(config.headers.Authorization)
+//         config.headers.Authorization = `Bearer ${token}`
+//       }
+//       console.log('test')
 //       return config
 //     },
 //     responseInterceptor: (res) => {

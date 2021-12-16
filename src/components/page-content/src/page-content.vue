@@ -15,18 +15,29 @@
           @click="handleNewClick"
           >{{ contentTableConfig.createBtn }}</el-button
         >
-        <el-button>
+        <el-button @click="handleRefreshClick">
           <el-icon><refresh /></el-icon
         ></el-button>
       </template>
+
       <!-- 2.列中的插槽 ,固定给的操作，-->
       <template #status="scope">
-        <el-button
-          plain
-          size="mini"
-          :type="scope.row.enable ? 'success' : 'danger'"
-          >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
-        >
+        <template v-if="scope.row.enable">
+          <el-button
+            plain
+            size="mini"
+            :type="scope.row.enable ? 'success' : 'danger'"
+            >{{ scope.row.enable ? '启用' : '禁用' }}</el-button
+          >
+        </template>
+        <template v-else>
+          <el-button
+            plain
+            size="mini"
+            :type="scope.row.status ? 'success' : 'danger'"
+            >{{ scope.row.status ? '可用' : '下架' }}</el-button
+          >
+        </template>
       </template>
       <template #createAt="scope">
         <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
@@ -48,7 +59,6 @@
           <el-popconfirm
             confirm-button-text="确认"
             cancel-button-text="取消"
-            :icon="InfoFilled"
             icon-color="red"
             title="确认删除此条数据吗？"
             v-if="isDelete"
@@ -119,6 +129,7 @@ export default defineComponent({
 
     // 2.发送网络请求，配置路径和传入数据内容
     const getPageData = (queryInfo: any = {}) => {
+      // console.log(queryInfo)
       // 如果没有查询权限，就不能请求
       if (!isQuery) return
       store.dispatch('system/getPageListAction', {
@@ -140,7 +151,11 @@ export default defineComponent({
     const dataCount = computed(() =>
       store.getters[`system/pageListCount`](props.pageName)
     )
-
+    const handleRefreshClick = () => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName
+      })
+    }
     // 4.获取其他的动态插槽名称，从配置文件的对象中遍历寻找
     const otherPropSlots = props.contentTableConfig?.propList.filter(
       (item: any) => {
@@ -177,7 +192,8 @@ export default defineComponent({
       isDelete,
       handleDeleteClick,
       handleNewClick,
-      handleEditClick
+      handleEditClick,
+      handleRefreshClick
     }
   }
 })

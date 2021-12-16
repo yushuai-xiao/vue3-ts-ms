@@ -10,6 +10,7 @@ export function usePageModal(newCb?: CallbackFn, editCb?: CallbackFn) {
   const handleNewData = () => {
     defaultInfo.value = {}
     if (pageModalRef.value) {
+      // console.log(pageModalRef.value)
       pageModalRef.value.dialogVisible = true
     }
     newCb && newCb()

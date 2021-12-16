@@ -15,15 +15,21 @@ const systemModule: Module<ISystemState, IRootState> = {
     return {
       usersList: [],
       usersCount: 0,
+
       roleList: [],
       roleCount: 0,
+
       goodsList: [],
       goodsCount: 0,
+
       menuList: [],
       menuCount: 0,
       // 部门信息
       departmentList: [],
-      departmentCount: 0
+      departmentCount: 0,
+      // 商品分类信息
+      categoryList: [],
+      categoryCount: 0
     }
   },
   mutations: {
@@ -55,11 +61,19 @@ const systemModule: Module<ISystemState, IRootState> = {
     changeGoodsCount(state, count: number) {
       state.goodsCount = count
     },
+    // 菜单信息
     changeMenuList(state, list: any[]) {
       state.menuList = list
     },
     changeMenuCount(state, count: number) {
       state.menuCount = count
+    },
+    // 菜单信息
+    changeCategoryList(state, list: any[]) {
+      state.categoryList = list
+    },
+    changeCategoryCount(state, count: number) {
+      state.categoryCount = count
     }
   },
   getters: {
@@ -79,7 +93,7 @@ const systemModule: Module<ISystemState, IRootState> = {
       // 1.获取pageUrl
       const pageName = payload.pageName
       const pageUrl = `/${pageName}/list`
-      console.log(pageUrl)
+      // console.log(pageUrl)
 
       // 1.对页面发送请求
       const pageResult = await getPageListData(pageUrl, payload.queryInfo)
@@ -92,17 +106,6 @@ const systemModule: Module<ISystemState, IRootState> = {
         pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
       commit(`change${changePageName}List`, list)
       commit(`change${changePageName}Count`, totalCount)
-
-      // switch (pageName) {
-      //   case 'users':
-      //     commit(`changeUserList`, list)
-      //     commit(`changeUserCount`, totalCount)
-      //     break
-      //   case 'role':
-      //     commit(`changeRoleList`, list)
-      //     commit(`changeRoleCount`, totalCount)
-      //     break
-      // }
     },
     async deletePageDataAction({ dispatch }, payload: any) {
       // 1.获取pageName和id

@@ -52,7 +52,8 @@ export default defineComponent({
     for (const item of formItem) {
       formOriginData[item.field] = ''
     }
-
+    // formOriginData中的数据形式{id: '', name: '', realname: '', cellphone: '', enable: ' '}
+    // console.log(formOriginData)
     const formData = ref(formOriginData)
 
     // 2.优化二：当用户点击重置

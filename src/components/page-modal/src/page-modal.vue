@@ -3,7 +3,7 @@
     <el-dialog
       title="新建用户"
       v-model="dialogVisible"
-      width="30%"
+      :width="modalConfig.width ? modalConfig.width : '30%'"
       center
       destroy-on-close
     >
@@ -68,6 +68,7 @@ export default defineComponent({
         console.log(props.pageName)
         store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
+          // props.otherInfo,在角色菜单中，给角色赋予的权限
           editData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })

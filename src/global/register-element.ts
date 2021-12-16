@@ -37,7 +37,11 @@ import {
   ElDialog,
   ElTree,
   ElCard,
-  ElPopconfirm
+  ElPopconfirm,
+  ElTag,
+  ElDescriptions,
+  ElDescriptionsItem,
+  ElTooltip
 } from 'element-plus/lib'
 
 const components = [
@@ -76,7 +80,11 @@ const components = [
   ElDialog,
   ElTree,
   ElCard,
-  ElPopconfirm
+  ElPopconfirm,
+  ElTag,
+  ElDescriptions,
+  ElDescriptionsItem,
+  ElTooltip
 ]
 
 export default function (app: App): void {

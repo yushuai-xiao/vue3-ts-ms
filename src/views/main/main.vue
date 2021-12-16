@@ -6,10 +6,11 @@
       </el-aside>
       <el-container class="page">
         <el-header class="page-header">
+          <!-- 主体页面的头部分， -->
           <nav-header @foldChange="handleFoldChange"></nav-header>
         </el-header>
         <el-main class="page-content">
-          <div class="page-info">
+          <div class="content">
             <el-config-provider :locale="locale">
               <router-view></router-view>
             </el-config-provider>
@@ -63,9 +64,10 @@ export default defineComponent({
 
 .page-content {
   height: calc(100% - 48px);
-  .page-info {
+
+  .content {
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
   }
 }
 

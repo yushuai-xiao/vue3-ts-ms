@@ -1,7 +1,7 @@
 import xsRequest from '@/service'
 
 import { IDataType } from '@/service/login/type'
-
+// 请求页面数据，list
 export function getPageListData(url: string, queryInfo: any) {
   return xsRequest.post<IDataType>({
     url: url,
