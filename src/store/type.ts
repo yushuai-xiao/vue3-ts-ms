@@ -8,6 +8,7 @@ export interface IRootState {
   entireRole: any[]
   entireMenu: any[]
   entireCategory: any[]
+  entireLeader: any[]
 }
 
 export interface IRootWithModule {

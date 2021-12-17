@@ -1,15 +1,22 @@
 import { IForm } from '@/base-ui/form'
 
 export const modalConfig: IForm = {
+  title: '新建用户',
   formItems: [
     {
-      field: 'name',
+      field: 'id',
+      type: 'input',
+      label: 'userId',
+      placeholder: '请输入用户id'
+    },
+    {
+      field: 'userName',
       type: 'input',
       label: '用户名',
       placeholder: '请输入用户名'
     },
     {
-      field: 'realname',
+      field: 'realName',
       type: 'input',
       label: '真实姓名',
       placeholder: '请输入真实姓名'

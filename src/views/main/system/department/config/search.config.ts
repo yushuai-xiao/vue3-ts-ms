@@ -10,26 +10,20 @@ export const searchFormConfig: IForm = {
   // },
   formItems: [
     {
-      field: 'id',
-      type: 'input',
-      label: 'id',
-      placeholder: '请输入id'
-    },
-    {
-      field: 'name',
+      field: 'depName',
       type: 'select',
       label: '选择部门',
       placeholder: '请选择部门',
       options: []
     },
     {
-      field: 'leader',
+      field: 'leaderName',
       type: 'input',
       label: '部门主管',
       placeholder: '请输入主管名称'
     },
     {
-      field: 'createAt',
+      field: 'createdTime',
       type: 'datepicker',
       label: '创建时间',
       otherOptions: {

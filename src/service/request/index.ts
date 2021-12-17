@@ -66,7 +66,7 @@ class XSRequest {
         // }, 3000)
 
         const data = res.data
-        if (data.returnCode === '-1001') {
+        if (data.code === '3') {
           console.log('请求失败~,错误信息')
         } else {
           return data

@@ -1,11 +1,11 @@
 <template>
   <div class="login-account">
-    <el-form label-width="60px" :rules="rules" :model="account" ref="formRef">
-      <el-form-item label="账号" prop="name">
-        <el-input v-model="account.name"></el-input>
+    <el-form label-width="60px" :rules="rules" :model="login" ref="formRef">
+      <el-form-item label="账号" prop="account">
+        <el-input v-model="login.account"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="account.password"></el-input>
+        <el-input v-model="login.password"></el-input>
       </el-form-item>
     </el-form>
   </div>
@@ -22,8 +22,8 @@ export default defineComponent({
   setup() {
     const store = useStore()
 
-    const account = reactive({
-      name: localCache.getCache('name') ?? '',
+    const login = reactive({
+      account: localCache.getCache('account') ?? '',
       password: localCache.getCache('password') ?? ''
     })
     const formRef = ref<InstanceType<typeof ElForm>>()
@@ -34,20 +34,21 @@ export default defineComponent({
           // 1.判断是否需要记住密码
           if (isKeepPassword) {
             // 本地缓存
-            localCache.setCache('name', account.name)
-            localCache.setCache('password', account.password)
+            localCache.setCache('account', login.account)
+            localCache.setCache('password', login.password)
           } else {
-            localCache.deleteCache('name')
+            localCache.deleteCache('account')
             localCache.deleteCache('password')
           }
 
+          console.log({ ...login })
           // 2.开始进行登录验证
-          store.dispatch('login/accountLoginAction', { ...account })
+          store.dispatch('login/accountLoginAction', { ...login })
         }
       })
     }
     return {
-      account,
+      login,
       rules,
       loginAction,
       formRef

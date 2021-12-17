@@ -93,7 +93,6 @@ export default defineComponent({
       const chenckedKeys = data2.checkedKeys
       const halfCheckedKeys = data2.halfCheckedKeys
       const menuList = [...chenckedKeys, ...halfCheckedKeys]
-
       otherInfo.value = { menuList }
     }
 

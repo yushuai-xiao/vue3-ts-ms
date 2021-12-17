@@ -13,8 +13,8 @@ const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
     return {
-      usersList: [],
-      usersCount: 0,
+      userList: [],
+      userCount: 0,
 
       roleList: [],
       roleCount: 0,
@@ -34,11 +34,11 @@ const systemModule: Module<ISystemState, IRootState> = {
   },
   mutations: {
     // 用户信息
-    changeUsersList(state, userList: any[]) {
-      state.usersList = userList
+    changeUserList(state, userList: any[]) {
+      state.userList = userList
     },
-    changeUsersCount(state, userCount: number) {
-      state.usersCount = userCount
+    changeUserCount(state, userCount: number) {
+      state.userCount = userCount
     },
     // 角色信息
     changeRoleList(state, list: any[]) {
@@ -92,26 +92,35 @@ const systemModule: Module<ISystemState, IRootState> = {
     async getPageListAction({ commit }, payload: any) {
       // 1.获取pageUrl
       const pageName = payload.pageName
-      const pageUrl = `/${pageName}/list`
-      // console.log(pageUrl)
+      let pageUrl = `/${pageName}/list`
+
+      // 当请求的是menu菜单的时候要进行处理
+      if (pageName === 'menu') {
+        pageUrl = '/permission/view'
+      }
+      // 返回的时间格式处理一下
+      // console.log(payload.queryInfo)
 
       // 1.对页面发送请求
       const pageResult = await getPageListData(pageUrl, payload.queryInfo)
 
       // 3.将数据存储到state中
-      const { list, totalCount } = pageResult.data
-      // console.log(pageResult.data)
+      // console.log(pageResult)
+      const { data, total } = pageResult
+      console.log(data)
 
       const changePageName =
         pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
-      commit(`change${changePageName}List`, list)
-      commit(`change${changePageName}Count`, totalCount)
+      commit(`change${changePageName}List`, data)
+      commit(`change${changePageName}Count`, total)
     },
+
     async deletePageDataAction({ dispatch }, payload: any) {
       // 1.获取pageName和id
       // pageName->/user
       // id->/user/id
       const { pageName, id } = payload
+      console.log(id)
       const pageUrl = `${pageName}/${id}`
 
       // 2.调用删除网络请求
@@ -121,14 +130,15 @@ const systemModule: Module<ISystemState, IRootState> = {
       dispatch('getPageListAction', {
         pageName,
         queryInfo: {
-          offset: 0,
-          size: 10
+          current: 1,
+          oageSize: 10
         }
       })
     },
     async createPageDataAction({ dispatch }, payload: any) {
       // 1.创建数据的请求
       const { pageName, newData } = payload
+      console.log(newData)
       const pageUrl = `/${pageName}`
       await createPageData(pageUrl, newData)
 
@@ -136,18 +146,18 @@ const systemModule: Module<ISystemState, IRootState> = {
       dispatch('getPageListAction', {
         pageName,
         queryInfo: {
-          offset: 0,
-          size: 10
+          current: 1,
+          pageSize: 10
         }
       })
     },
     async editPageDataAction({ dispatch }, payload: any) {
       // 编辑数据请求
-      console.log(payload)
-      const { pageName, editData, id } = payload
-      console.log(pageName)
+      // console.log(payload)
+      const { pageName, editData, userId } = payload
+      console.log(editData)
 
-      const pageUrl = `/${pageName}/${id}`
+      const pageUrl = `/${pageName}/${userId}`
 
       await editPageData(pageUrl, editData)
 
@@ -155,8 +165,8 @@ const systemModule: Module<ISystemState, IRootState> = {
       dispatch('getPageListAction', {
         pageName,
         queryInfo: {
-          offset: 0,
-          size: 10
+          current: 1,
+          pageSize: 10
         }
       })
     }

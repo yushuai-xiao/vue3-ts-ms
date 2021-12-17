@@ -3,19 +3,20 @@ export const contentTableConfig = {
   createBtn: '新建部门',
   propList: [
     { prop: 'id', label: '部门id', minWidth: '100' },
-    { prop: 'name', label: '部门名称', minWidth: '100' },
-    { prop: 'leader', label: '主管名称', minWidth: '100' },
+    { prop: 'depName', label: '部门名称', minWidth: '100' },
+    { prop: 'leaderId', label: '主管Id', minWidth: '100' },
+    { prop: 'leaderName', label: '主管名称', minWidth: '100' },
     {
-      prop: 'createAt',
+      prop: 'createdTime',
       label: '创建时间',
       minWidth: '250',
-      slotName: 'createAt'
+      slotName: 'createdTime'
     },
     {
-      prop: 'updateAt',
+      prop: 'lastModifiedTime',
       label: '更新时间',
       minWidth: '250',
-      slotName: 'updateAt'
+      slotName: 'lastModifiedTime'
     },
     { label: '操作', minWidth: '120', slotName: 'handler' }
   ],

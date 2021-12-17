@@ -15,7 +15,8 @@ const store = createStore<IRootState>({
       entireDepartment: [],
       entireRole: [],
       entireMenu: [],
-      entireCategory: []
+      entireCategory: [],
+      entireLeader: []
     }
   },
   mutations: {
@@ -30,6 +31,9 @@ const store = createStore<IRootState>({
     },
     changeEntireCategory(state, list) {
       state.entireCategory = list
+    },
+    changeEntireLeader(state, list) {
+      state.entireLeader = list
     }
   },
   getters: {},
@@ -37,28 +41,31 @@ const store = createStore<IRootState>({
     async getInitialDataAction({ commit }) {
       // 1.请求部门和角色数据
       const departmentResult = await getPageListData('/department/list', {
-        offset: 0,
-        size: 1000
+        current: 1,
+        pageSize: 1000
       })
-      const { list: departmentList } = departmentResult.data
+      const { data: departmentList } = departmentResult
+
       const roleResult = await getPageListData('/role/list', {
-        offset: 0,
-        size: 1000
+        current: 1,
+        pageSize: 1000
       })
-      const { list: roleList } = roleResult.data
-
+      const { data: roleList } = roleResult
       //  请求所有的菜单数据
-      const menuResult = await getPageListData('/menu/list', {})
-      const { list: menuList } = menuResult.data
-
+      const menuResult = await getPageListData('/permission/view', {})
+      const { data: menuList } = menuResult
       // 请求所有商品分类信息
-      const categoryResult = await getPageListData('/category/list', {})
-      const { list: categoryList } = categoryResult.data
+      const categoryResult = await getPageListData('/product/category/list', {})
+      const { data: categoryList } = categoryResult
+      // 请求所有的用户
+      const leaderResult = await getPageListData('/user/list', {})
+      const { data: leaderList } = leaderResult
       // 2.保存数据
       commit('changeEntireDepartment', departmentList)
       commit('changeEntireRole', roleList)
       commit('changeEntireMenu', menuList)
       commit('changeEntireCategory', categoryList)
+      commit('changeEntireLeader', leaderList)
     }
   },
   modules: {

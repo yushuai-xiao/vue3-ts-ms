@@ -17,7 +17,7 @@
       :defaultInfo="defaultInfo"
       ref="pageModalRef"
       pageName="department"
-      :modalConfig="modalConfig"
+      :modalConfig="modalConfigRef"
     >
     </page-modal>
   </div>
@@ -49,25 +49,35 @@ export default defineComponent({
   setup() {
     const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
 
+    //  handleEdite的回调函数
+    const editCallback = () => {
+      modalConfig.title = '编辑部门'
+    }
     // pageModal相关的hook逻辑
     // 2.动态添加部门和角色列表
     const store = useStore()
     const searchFormConfigRef = computed(() => {
-      // console.log(searchFormConfig)
-
       const departmentItem = searchFormConfig.formItems.find(
-        (item) => item.field === 'name'
+        (item) => item.field === 'depName'
       )
       departmentItem!.options = store.state.entireDepartment.map((item) => {
-        return { title: item.name, value: item.name }
+        return { title: item.depName, value: item.depName }
       })
-      // console.log(searchFormConfig)
       return searchFormConfig
     })
-
+    // 动态的获取用户
+    const modalConfigRef = computed(() => {
+      const leaderItem = modalConfig.formItems.find(
+        (item) => item.field === 'leaderId'
+      )
+      leaderItem!.options = store.state.entireLeader.map((item) => {
+        return { title: item.userName, value: item.id }
+      })
+      return modalConfig
+    })
     // 调用hook获取公共变量和函数
     const [pageModalRef, defaultInfo, handleEditData, handleNewData] =
-      usePageModal()
+      usePageModal(undefined, editCallback)
     return {
       searchFormConfigRef,
       contentTableConfig,
@@ -78,7 +88,7 @@ export default defineComponent({
       defaultInfo,
       handleEditData,
       handleNewData,
-      modalConfig
+      modalConfigRef
     }
   }
 })

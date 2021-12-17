@@ -9,15 +9,15 @@
     <page-content
       ref="pageContentRef"
       :contentTableConfig="contentTableConfig"
-      pageName="users"
+      pageName="user"
       @newBtnClick="handleNewData"
       @editBtnClick="handleEditData"
     ></page-content>
     <page-modal
       :defaultInfo="defaultInfo"
       ref="pageModalRef"
-      pageName="users"
-      :modalConfig="modalConfigRef"
+      pageName="user"
+      :modalConfig="modalConfig"
     >
     </page-modal>
   </div>
@@ -67,22 +67,22 @@ export default defineComponent({
     }
 
     // 2.动态添加部门和角色列表
-    const store = useStore()
-    const modalConfigRef = computed(() => {
-      const departmentItem = modalConfig.formItems.find(
-        (item) => item.field === 'departmentId'
-      )
-      departmentItem!.options = store.state.entireDepartment.map((item) => {
-        return { title: item.name, value: item.id }
-      })
-      const roleItem = modalConfig.formItems.find(
-        (item) => item.field === 'roleId'
-      )
-      roleItem!.options = store.state.entireRole.map((item) => {
-        return { title: item.name, value: item.id }
-      })
-      return modalConfig
-    })
+    // const store = useStore()
+    // const modalConfigRef = computed(() => {
+    //   const departmentItem = modalConfig.formItems.find(
+    //     (item) => item.field === 'departmentId'
+    //   )
+    //   departmentItem!.options = store.state.entireDepartment.map((item) => {
+    //     return { title: item.name, value: item.id }
+    //   })
+    //   const roleItem = modalConfig.formItems.find(
+    //     (item) => item.field === 'roleId'
+    //   )
+    //   roleItem!.options = store.state.entireRole.map((item) => {
+    //     return { title: item.name, value: item.id }
+    //   })
+    //   return modalConfig
+    // })
 
     // 调用hook获取公共变量和函数
     const [pageModalRef, defaultInfo, handleEditData, handleNewData] =
@@ -98,7 +98,7 @@ export default defineComponent({
       defaultInfo,
       handleEditData,
       handleNewData,
-      modalConfigRef
+      modalConfig
     }
   }
 })

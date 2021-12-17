@@ -39,10 +39,10 @@
           >
         </template>
       </template>
-      <template #createAt="scope">
+      <template #startTime="scope">
         <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
       </template>
-      <template #updateAt="scope">
+      <template #lastModefiedTime="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
 
@@ -93,7 +93,9 @@ import XsTable from '@/base-ui/table'
 import { useStore } from '@/store'
 import { usePermission } from '@/hooks/use-permission'
 
+import { toRaw } from 'vue'
 import { Refresh, Edit, DeleteFilled } from '@element-plus/icons'
+import { formatToString } from '@/utils/date-format'
 export default defineComponent({
   components: {
     XsTable,
@@ -118,10 +120,15 @@ export default defineComponent({
     const store = useStore()
 
     // 获取操作权限，封装一个hook，进行请求
-    const isCreate = usePermission(props.pageName, 'create')
-    const isUpdate = usePermission(props.pageName, 'update')
-    const isDelete = usePermission(props.pageName, 'delete')
-    const isQuery = usePermission(props.pageName, 'query')
+    const isCreate = true
+    const isUpdate = true
+    const isDelete = true
+    const isQuery = true
+
+    // const isCreate = usePermission(props.pageName, 'create')
+    // const isUpdate = usePermission(props.pageName, 'update')
+    // const isDelete = usePermission(props.pageName, 'delete')
+    // const isQuery = usePermission(props.pageName, 'query')
 
     // 1.双向绑定pageInfo
     const pageInfo = ref({ currentPage: 0, pageSize: 10 })
@@ -132,12 +139,30 @@ export default defineComponent({
       // console.log(queryInfo)
       // 如果没有查询权限，就不能请求
       if (!isQuery) return
+      // const a = JSON.parse(JSON.stringify(queryInfo.createdTime))
+      const timeRange = toRaw(queryInfo.createdTime)
+      // const b = a.join()
+      // const a = computed(() => queryInfo.createdTime)
+      if (queryInfo.createdTime) {
+        const timeResult = []
+        for (const i in timeRange) {
+          timeResult.push(formatToString(new Date(timeRange[i])))
+        }
+        const startTime = timeResult[0]
+        const endTime = timeResult[1]
+        delete queryInfo.createdTime
+
+        queryInfo['startTime'] = startTime
+        queryInfo['endTime'] = endTime
+      }
+      console.log(queryInfo)
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          // 从分页器中拿出数据，进行数据的请求
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
-          size: pageInfo.value.pageSize,
+          // // 从分页器中拿出数据，进行数据的请求
+          // // current: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          // current: 1,
+          // pageSize: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
@@ -160,15 +185,15 @@ export default defineComponent({
     const otherPropSlots = props.contentTableConfig?.propList.filter(
       (item: any) => {
         if (item.slotName === 'status') return false
-        if (item.slotName === 'createAt') return false
-        if (item.slotName === 'updateAt') return false
+        if (item.slotName === 'startTime') return false
+        if (item.slotName === 'lastModefiedTime') return false
         if (item.slotName === 'handler') return false
         return true
       }
     )
     // 5.删除/编辑/新建操作
     const handleDeleteClick = (item: any) => {
-      // console.log(props.pageName)
+      console.log(props.pageName, item.id)
       store.dispatch('system/deletePageDataAction', {
         pageName: props.pageName,
         id: item.id
@@ -178,6 +203,7 @@ export default defineComponent({
       emit('newBtnClick')
     }
     const handleEditClick = (item: any) => {
+      console.log(item)
       emit('editBtnClick', item)
     }
 

@@ -1,11 +1,13 @@
-const path = require('path')
+// const path = require('path')
 
 module.exports = {
   outputDir: './build',
   devServer: {
     proxy: {
       '^/api': {
-        target: 'http://152.136.185.210:4000',
+        // target: 'http://152.136.185.210:4000',
+        target: 'http://zbd329.top:81/tianxun',
+
         pathRewrite: {
           '^/api': ''
         },

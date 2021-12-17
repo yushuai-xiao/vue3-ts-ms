@@ -20,7 +20,7 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 
   const _recurseGetRoute = (menus: any[]) => {
     for (const menu of menus) {
-      if (menu.type === 2) {
+      if (menu.superId !== null && menu.children) {
         const route = allRoutes.find((route) => route.path === menu.url)
         if (route) routes.push(route)
         if (!firstMenu) {
@@ -33,6 +33,7 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   }
 
   _recurseGetRoute(userMenus)
+  console.log(routes)
   return routes
 }
 // 面包屑获取值
@@ -50,14 +51,18 @@ export function pathMapToMenu(
   breadcrumbs?: IBreadcrumb[]
 ): any {
   for (const menu of userMenus) {
-    if (menu.type === 1) {
+    if (menu.superId === null) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
       if (findMenu) {
         breadcrumbs?.push({ name: menu.name })
         breadcrumbs?.push({ name: findMenu.name })
         return findMenu
       }
-    } else if (menu.type === 2 && menu.url === currentPath) {
+    } else if (
+      menu.superId !== null &&
+      menu.children &&
+      menu.url === currentPath
+    ) {
       return menu
     }
   }

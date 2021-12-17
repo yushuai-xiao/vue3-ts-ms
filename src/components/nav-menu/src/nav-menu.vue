@@ -15,7 +15,7 @@
       <!-- 根据登录用户返回的数据，动态加载菜单，从store中拿出数据 -->
       <template v-for="item in userMenus" :key="item.id">
         <!-- 二级菜单 -->
-        <template v-if="item.type === 1">
+        <template v-if="item.superId === null">
           <!-- 二级菜单可以展开的标题 -->
           <el-sub-menu :index="item.id + ''">
             <template #title>
@@ -35,7 +35,7 @@
           </el-sub-menu>
         </template>
         <!-- 一级菜单 -->
-        <template v-else-if="item.type === 2">
+        <template v-else-if="item.superId !== null && item.children">
           <el-menu-item :class="item.id + ''">
             <i v-if="item.icon" :class="item.icon"></i>
             <span>{{ item.name }}</span>
@@ -65,7 +65,7 @@ export default defineComponent({
     const store = useStore()
 
     const userMenus = computed(() => store.state.login.userMenus)
-    // console.log(userMenus)
+    console.log(userMenus)
     // router操作
     const route = useRoute()
 
@@ -73,7 +73,7 @@ export default defineComponent({
     const currentPath = route.path
     // console.log(currentPath)
 
-    // data
+    // 判断当前选中的菜单
     const menu = pathMapToMenu(userMenus.value, currentPath)
 
     const defaultValue = ref(menu.id + '')

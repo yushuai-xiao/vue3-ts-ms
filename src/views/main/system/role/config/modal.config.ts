@@ -9,7 +9,7 @@ export const modalConfig: IForm = {
       placeholder: '请输入角色名'
     },
     {
-      field: 'intro',
+      field: 'introduction',
       type: 'input',
       label: '角色介绍',
       placeholder: '请输入角色介绍'

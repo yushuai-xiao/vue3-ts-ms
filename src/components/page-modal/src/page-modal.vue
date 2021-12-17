@@ -1,9 +1,9 @@
 <template>
   <div class="page-modal">
     <el-dialog
-      title="新建用户"
+      :title="modalConfig.title"
       v-model="dialogVisible"
-      :width="modalConfig.width ? modalConfig.width : '30%'"
+      :width="modalConfig?.width ? modalConfig.width : '30%'"
       center
       destroy-on-close
     >
@@ -63,17 +63,36 @@ export default defineComponent({
     const store = useStore()
     const handleConfirmClick = () => {
       dialogVisible.value = false
+      // 处理id
+      if (props.pageName === 'user') {
+        const { id } = formData.value
+        console.log(id)
+        const userId = id
+        delete formData.value.id
+        formData.value['userId'] = userId
+      }
+      if (props.pageName === 'department') {
+        const { depName } = formData.value
+        const name = depName
+        delete formData.value.depName
+        formData.value['name'] = name
+      }
+
+      // console.log(formData.value)
+      props.defaultInfo.id
       if (Object.keys(props.defaultInfo).length) {
         // 编辑
-        console.log(props.pageName)
+        // console.log(props.pageName)
+        console.log(props.otherInfo)
         store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
           // props.otherInfo,在角色菜单中，给角色赋予的权限
           editData: { ...formData.value, ...props.otherInfo },
-          id: props.defaultInfo.id
+          userId: props.defaultInfo.id
         })
       } else {
         // 新建
+        console.log(formData.value)
         store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
           newData: { ...formData.value, ...props.otherInfo }

@@ -12,3 +12,7 @@ export function formatUtcString(
 ) {
   return dayjs.utc(utcString).utcOffset(8).format(format)
 }
+
+export function formatToString(date1: Date, format: string = DATE_TIME_FORMAT) {
+  return dayjs(date1).format(format)
+}

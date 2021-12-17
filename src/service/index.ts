@@ -15,7 +15,7 @@ const xsRequest = new XSRequest({
       const token = localCache.getCache('token')
       if (token) {
         // console.log(config)
-        config.headers.Authorization = `Bearer ${token}`
+        config.headers.Authorization = `${token}`
       }
       // console.log('请求成功的拦截')
       return config

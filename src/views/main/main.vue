@@ -4,6 +4,7 @@
       <el-aside :width="isCollapse ? '60px' : '200px'">
         <nav-menu :collapse="isCollapse"></nav-menu>
       </el-aside>
+      <!-- <el-aside></el-aside> -->
       <el-container class="page">
         <el-header class="page-header">
           <!-- 主体页面的头部分， -->
@@ -13,6 +14,7 @@
           <div class="content">
             <el-config-provider :locale="locale">
               <router-view></router-view>
+              <!-- <User></User> -->
             </el-config-provider>
           </div>
         </el-main>
@@ -25,7 +27,7 @@
 import { defineComponent, ref } from 'vue'
 import NavMenu from '@/components/nav-menu'
 import NavHeader from '@/components/nav-header'
-
+import User from './system/user/user.vue'
 import { ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 export default defineComponent({
@@ -33,6 +35,7 @@ export default defineComponent({
     NavMenu,
     NavHeader,
     ElConfigProvider
+    // User
   },
   setup() {
     const isCollapse = ref(false)
